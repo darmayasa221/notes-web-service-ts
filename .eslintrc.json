@@ -18,5 +18,6 @@
     "project": ["./tsconfig.json"]
   },
   "plugins": ["@typescript-eslint", "prettier"],
-  "rules": {}
+  "rules": {},
+  "ignorePatterns": ["*.d.ts"]
 }
