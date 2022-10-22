@@ -1,0 +1,27 @@
+{
+  "name": "notes-web-service-ts",
+  "version": "1.0.0",
+  "description": "notes-web-service-ts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/darmayasa221/notes-web-service-ts.git"
+  },
+  "author": "darmayasa221@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/darmayasa221/notes-web-service-ts/issues"
+  },
+  "homepage": "https://github.com/darmayasa221/notes-web-service-ts#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.3",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.4"
+  }
+}
