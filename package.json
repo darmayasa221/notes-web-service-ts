@@ -20,7 +20,9 @@
   },
   "homepage": "https://github.com/darmayasa221/notes-web-service-ts#readme",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "nanoid": "^4.0.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.14",
