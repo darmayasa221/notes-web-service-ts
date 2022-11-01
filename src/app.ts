@@ -1,15 +1,53 @@
-import express, { Router } from "express";
+import express, {
+  json,
+  Response,
+  Request,
+  Router,
+  NextFunction,
+} from "express";
+import notes from "@api/notes";
+import NotFoundError from "Exception/NotFoundError";
+import ClientError from "Exception/ClientError";
+import { TypeResponse } from "@model/response";
 
 const app = express();
 const router = Router();
 const port = 5000;
 const host = process.env.NODE_ENV !== "production" ? "localhost" : "0.0.0.0";
-
-router.get("/", (req, res) => {
-  res.send("hellow world");
+// third-partry/build in middleware
+app.use(json());
+// third-partry/build in middleware end
+// root app
+app.use("/api", router);
+// router adapter
+notes({ router });
+// router adapter end
+// out of path
+app.all("*", (req, res) => {
+  res.status(404).send("not found");
 });
-app.use("/", router);
-
+// out of path end
+// error handling
+app.use(
+  (
+    err: TypeError,
+    req: Request,
+    res: Response<TypeResponse>,
+    next: NextFunction,
+  ) => {
+    if (err instanceof ClientError) {
+      return res.status(err.statusCode).json({
+        status: "fail",
+        message: err.message,
+      });
+    }
+    return res.status(500).json({
+      status: "error",
+      message: "server error",
+    });
+  },
+);
+// error handling end
 app.listen(port, host, () => {
   // eslint-disable-next-line no-console
   console.log(`listen on ${host}:${port}`);
