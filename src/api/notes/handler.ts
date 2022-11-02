@@ -1,4 +1,4 @@
-import { INote } from "@model/notes/index";
+import { INote } from "@model/notes/Note";
 import { TypeResponse } from "@model/response";
 import { INotesService } from "@services/inMemory/NotesService";
 import { Request, response, Response } from "express";

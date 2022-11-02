@@ -1,5 +1,5 @@
-import { INewNote, INote, INoted } from "@model/notes";
-import NotFoundError from "Exception/NotFoundError";
+import { INewNote, INote, INoted } from "@model/notes/Note";
+import NotFoundError from "Exceptions/NotFoundError";
 import { nanoid } from "nanoid";
 
 export interface INotesService {
