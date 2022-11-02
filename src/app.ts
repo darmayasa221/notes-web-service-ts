@@ -6,9 +6,8 @@ import express, {
   NextFunction,
 } from "express";
 import notes from "@api/notes";
-import NotFoundError from "Exception/NotFoundError";
-import ClientError from "Exception/ClientError";
 import { TypeResponse } from "@model/response";
+import ClientError from "Exceptions/ClientError";
 
 const app = express();
 const router = Router();
@@ -30,7 +29,7 @@ app.all("*", (req, res) => {
 // error handling
 app.use(
   (
-    err: TypeError,
+    err: ClientError,
     req: Request,
     res: Response<TypeResponse>,
     next: NextFunction,
