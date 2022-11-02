@@ -50,9 +50,11 @@ export default class NotesService implements INotesService {
   }
 
   getNote(noteId: string): INoted {
-    const note: INewNote = this.notes.find(
-      (notes) => notes.id === noteId,
-    ) as INewNote;
+    const index: number = this.notes.findIndex((notes) => notes.id === noteId);
+    if (index === -1) {
+      throw new NotFoundError("Catatan tidak ditemukan");
+    }
+    const note = this.notes[index];
     const newNoteFormat: INoted = {
       id: note.id,
       title: note.title,
@@ -69,9 +71,11 @@ export default class NotesService implements INotesService {
     if (index === -1) {
       throw new NotFoundError("Catatan tidak ditemukan");
     }
+    // validation payload
+    const note = new Note(arg);
     this.notes[index] = {
       ...this.notes[index],
-      ...arg,
+      ...note,
     };
   }
 
