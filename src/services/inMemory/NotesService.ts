@@ -1,4 +1,7 @@
-import { INewNote, INote, INoted } from "@model/notes/Note";
+import NewNote, { INewNote } from "@model/notes/NewNote";
+import Note, { INote } from "@model/notes/Note";
+import Noted, { INoted } from "@model/notes/Noted";
+import InvariantError from "Exceptions/InvariantError";
 import NotFoundError from "Exceptions/NotFoundError";
 import { nanoid } from "nanoid";
 
@@ -18,11 +21,13 @@ export default class NotesService implements INotesService {
   }
 
   addNote(arg: INote): string {
-    const { body, tags, title } = arg;
+    // validation payload
+    const newArg = new Note(arg);
+    const { body, tags, title } = newArg;
     const id = nanoid(16);
     const createdAt = new Date().toISOString();
     const updatedAt = createdAt;
-    const newNote: INewNote = {
+    const noteData: INewNote = {
       title,
       tags,
       body,
@@ -30,10 +35,12 @@ export default class NotesService implements INotesService {
       createdAt,
       updatedAt,
     };
+    // validation payload before save data
+    const newNote = new NewNote(noteData);
     this.notes.push(newNote);
     const isSuccess = this.notes.filter((note) => note?.id === id).length > 0;
     if (!isSuccess) {
-      throw new Error("catatan gagal di tambahkan");
+      throw new InvariantError("catatan gagal di tambahkan");
     }
     return id;
   }
@@ -52,7 +59,9 @@ export default class NotesService implements INotesService {
       body: note.body,
       tags: note.tags,
     };
-    return newNoteFormat;
+    // validation before send to client
+    const noted = new Noted(newNoteFormat);
+    return noted;
   }
 
   editNote(arg: INote, noteId: string): void | Error {

@@ -5,7 +5,6 @@ export interface INote {
   body: string;
   tags: Array<string>;
 }
-export interface INoteRequestBody extends INote {}
 export default class Note implements INote {
   public title: string;
 
