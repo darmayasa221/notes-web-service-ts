@@ -1,12 +1,13 @@
 import { INote } from "@model/notes/Note";
 import { TypeResponse } from "@model/response";
 import { INotesService } from "@services/inMemory/NotesService";
-import { Request, response, Response } from "express";
+import { Request, Response } from "express";
+import { runInNewContext } from "vm";
 
 export interface INotesHandlers {
   getNotesHandler(req: Request, res: Response<TypeResponse>): void;
   getNoteHandler(req: Request, res: Response<TypeResponse>): void;
-  postNotesHandler(req: Request, res: Response<TypeResponse>): void;
+  postNoteHandler(req: Request, res: Response<TypeResponse>): void;
   putNoteHandler(req: Request, res: Response<TypeResponse>): void;
   deleteNoteHandler(req: Request, res: Response<TypeResponse>): void;
 }
@@ -17,7 +18,7 @@ export default class NotesHandlers implements INotesHandlers {
     this.service = service;
     this.getNoteHandler = this.getNoteHandler.bind(this);
     this.getNotesHandler = this.getNotesHandler.bind(this);
-    this.postNotesHandler = this.postNotesHandler.bind(this);
+    this.postNoteHandler = this.postNoteHandler.bind(this);
     this.putNoteHandler = this.putNoteHandler.bind(this);
     this.deleteNoteHandler = this.deleteNoteHandler.bind(this);
   }
@@ -36,9 +37,18 @@ export default class NotesHandlers implements INotesHandlers {
     res.status(200).json({ status: "success", data: { notes } });
   }
 
-  postNotesHandler(req: Request, res: Response<TypeResponse>): void {
-    const note: INote = req.body;
-    const noteId = this.service.addNote(note);
+  postNoteHandler(
+    req: Request<{ type: string }>,
+    res: Response<TypeResponse>,
+  ): void {
+    // check note params
+    let noteId: string | null = "";
+    if (req.params.type) {
+      noteId = this.service.addNoteQuick();
+    } else {
+      const note: INote = req.body;
+      noteId = this.service.addNoteSpecific(note);
+    }
     res.status(201).json({
       status: "success",
       message: "Catatan berhasil ditambahkan",

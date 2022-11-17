@@ -6,7 +6,8 @@ import NotFoundError from "Exceptions/NotFoundError";
 import { nanoid } from "nanoid";
 
 export interface INotesService {
-  addNote(arg: INote): string;
+  addNoteQuick(): string;
+  addNoteSpecific(arg: INote): string;
   getNotes(): Array<INewNote>;
   getNote(noteId: string): INoted;
   editNote(arg: INote, noteId: string): void | Error;
@@ -20,7 +21,27 @@ export default class NotesService implements INotesService {
     this.notes = [];
   }
 
-  addNote(arg: INote): string {
+  addNoteQuick(): string {
+    const id = nanoid(16);
+    const createdAt = new Date().toISOString();
+    const updatedAt = createdAt;
+    const noteData: INewNote = {
+      title: "Quick Note",
+      tags: ["tag one"],
+      body: "first note",
+      id,
+      createdAt,
+      updatedAt,
+    };
+    this.notes.push(noteData);
+    const isSuccess = this.notes.filter((note) => note?.id === id).length > 0;
+    if (!isSuccess) {
+      throw new InvariantError("catatan gagal di tambahkan");
+    }
+    return id;
+  }
+
+  addNoteSpecific(arg: INote): string {
     // validation payload
     const newArg = new Note(arg);
     const { body, tags, title } = newArg;
