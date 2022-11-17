@@ -21,11 +21,13 @@
   },
   "homepage": "https://github.com/darmayasa221/notes-web-service-ts#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "morgan": "^1.10.0",
     "nanoid": "^3.3.4"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.12",
     "@types/express": "^4.17.14",
     "@types/node": "^18.11.3",
     "@typescript-eslint/eslint-plugin": "^5.40.1",
