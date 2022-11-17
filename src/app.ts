@@ -8,13 +8,14 @@ import express, {
 import notes from "@api/notes";
 import { TypeResponse } from "@model/response";
 import ClientError from "Exceptions/ClientError";
+import cors from "cors";
 
 const app = express();
 const router = Router();
 const port = 5000;
 const host = process.env.NODE_ENV !== "production" ? "localhost" : "0.0.0.0";
 // third-partry/build in middleware
-app.use(json());
+app.use(json(), cors());
 // third-partry/build in middleware end
 // root app
 app.use("/api", router);
